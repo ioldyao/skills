@@ -6,6 +6,8 @@ OpenClaw Agent Skills Collection
 
 - **feishu-api** - 向飞书用户发送消息、图片、文件的直接工具
 - **home-assistant-mcp** - 通过 MCP Server 控制 Home Assistant 智能家居设备
+- **self-improving-agent** - 持续改进和自我修正，记录错误和学习
+- **using-superpowers** - 技能使用指南和发现机制
 - **web-search-plus** - 统一搜索技能，智能路由到多个搜索引擎
 
 ## Installation
