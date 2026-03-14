@@ -11,8 +11,8 @@ TEXT="${1:?❌ Error: Text message required}"
 RECEIVER_ID="${2:?❌ Error: Receiver ID required}"
 API_DOMAIN="${FEISHU_API_DOMAIN:-open.feishu.cn}"
 
-# Escape text for JSON
-ESCAPED_TEXT=$(echo "$TEXT" | jq -Rs .)
+# Build JSON content properly using jq
+CONTENT_JSON=$(jq -n --arg text "$TEXT" '{text: $text}')
 
 RESPONSE=$(curl -s -X POST "https://${API_DOMAIN}/open-apis/im/v1/messages?receive_id_type=open_id" \
     -H "Authorization: Bearer ${TOKEN}" \
@@ -20,7 +20,7 @@ RESPONSE=$(curl -s -X POST "https://${API_DOMAIN}/open-apis/im/v1/messages?recei
     -d "{
         \"receive_id\": \"${RECEIVER_ID}\",
         \"msg_type\": \"text\",
-        \"content\": \"{\\\"text\\\":${ESCAPED_TEXT}}\"
+        \"content\": $(echo "$CONTENT_JSON" | jq -Rs .)
     }")
 
 CODE=$(echo "$RESPONSE" | jq -r '.code')

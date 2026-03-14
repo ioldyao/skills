@@ -8,9 +8,9 @@ set -euo pipefail
 CONFIG_FILE="/root/.openclaw/openclaw.json"
 API_DOMAIN="${FEISHU_API_DOMAIN:-open.feishu.cn}"
 
-# Read credentials from config
-APP_ID=$(jq -r '.channels.feishu.appId // .channels.feishu.app_id // empty' "$CONFIG_FILE")
-APP_SECRET=$(jq -r '.channels.feishu.appSecret // .channels.feishu.app_secret // empty' "$CONFIG_FILE")
+# Read credentials from config (try both locations)
+APP_ID=$(jq -r '.agents.channels.feishu.appId // .channels.feishu.appId // .agents.channels.feishu.app_id // .channels.feishu.app_id // empty' "$CONFIG_FILE")
+APP_SECRET=$(jq -r '.agents.channels.feishu.appSecret // .channels.feishu.appSecret // .agents.channels.feishu.app_secret // .channels.feishu.app_secret // empty' "$CONFIG_FILE")
 
 if [[ -z "$APP_ID" || -z "$APP_SECRET" ]]; then
     echo "❌ Error: Feishu credentials not found in $CONFIG_FILE" >&2
